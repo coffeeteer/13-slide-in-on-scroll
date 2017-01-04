@@ -43,6 +43,7 @@
   </div>
 
   <script>
+    // Creates a delay for events that load constantly, like the scroll event. It make the code lighter. Without debounce Scroll down just once on this laptop had the scroll event load 181 times, verus twice with it.
     function debounce(func, wait = 20, immediate = true) {
       var timeout;
       return function() {
@@ -57,6 +58,22 @@
         if (callNow) func.apply(context, args);
       };
     }
+
+    const sliderImages = document.querySelectorAll('.slide-in');
+
+    function checkSlide(e){
+      sliderImages.forEach(slideImage => {
+        //half way throught the image
+        const slideInAt = (window.scrollY + window.innerHeight) - slideImage.height / 2;
+        console.log(slideInAt);
+        // bottom of the image
+        const imageBottom = sliderImage.offsetTop + sliderImage.height;
+        const isHalfShown = slideInAt > sliderImage.offsetTop;
+        const isNotScrolledPast = window.scrollY < imageBottom;
+      });
+    }
+
+    window.addEventListener('scroll', debounce(checkSlide));
 
   </script>
 
